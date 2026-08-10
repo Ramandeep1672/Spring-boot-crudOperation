@@ -1,0 +1,37 @@
+services:
+
+  mysql-db:
+    image: mysql:8
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: Admin
+      MYSQL_DATABASE: techtezworkspace1
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - employee-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pAdmin"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+  springboot-app:
+    build: .
+    container_name: springboot-app
+    ports:
+      - "4040:4040"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    networks:
+      - employee-network
+
+
+volumes:
+  mysql-data:
+
+
+networks:
+  employee-network:
