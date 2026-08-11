@@ -1,6 +1,6 @@
 FROM eclipse-temurin:21-jdk
 
-WORKDIR /app/u
+WORKDIR /app
 
 COPY target/EmployeeManagementAPI-0.0.1-SNAPSHOT.jar app.jar
 
